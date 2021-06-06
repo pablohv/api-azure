@@ -1,17 +1,19 @@
 # API Rest en SpringBoot desplegada en Azure
 
-Este es una API Rest desplegada en Azure, se utilizaron los siguientes recursos:
+##Este es una API Rest desplegada en Azure, se utilizaron los siguientes recursos:
 
 <ul>
   <li>App Services</li>
   <li>Azure Database for MySQL</li>
 </ul>
 
-La API es un CRUD de clientes 
+##La API es un CRUD de clientes 
 
 A continuacion se ponen los pasos para lograr el despliegue:
 
 1. El primer paso es seleccionar un recurso para la base de datos en MySQL y lo creamos con las especificaciones que deseemos 
+
+
 
 2. Damos acceso al firewall de la BD para conectarnos remotamente
 
