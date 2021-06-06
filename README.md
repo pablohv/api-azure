@@ -53,7 +53,7 @@ A continuacion se ponen los pasos para lograr el despliegue:
 
 ![10](https://user-images.githubusercontent.com/58754667/120941850-b0747080-c6ea-11eb-92fa-d5729a67aba5.PNG)
 
-12. Como tengo swagger podemos ver las acciones que tenemos en la api en este caso es un CRUD 
+12. Como tengo swagger podemos ver las acciones que tenemos en la api en este caso es un CRUD
 
 ![11](https://user-images.githubusercontent.com/58754667/120941853-b5392480-c6ea-11eb-8468-07233a79657b.PNG)
 
