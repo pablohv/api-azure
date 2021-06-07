@@ -3,11 +3,15 @@ package com.apirest.dao.dto.app.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +37,20 @@ public class ClienteRestController {
 	}
 
 	@PostMapping("/clientes")
-	public ResponseEntity<?> create(@RequestBody ClienteDto dto) {
+	public ResponseEntity<?> create(@Valid @RequestBody ClienteDto dto, BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 		ClienteDto clienteNew = null;
+		
+		if(result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 
 		try {
 			clienteNew = clienteService.create(dto);
@@ -74,8 +89,20 @@ public class ClienteRestController {
 	}
 
 	@PutMapping("/clientes/{id}")
-	public ResponseEntity<?> update(@RequestBody ClienteDto dto, @PathVariable Integer id) {
+	public ResponseEntity<?> update(@Valid @RequestBody ClienteDto dto, BindingResult result, @PathVariable Integer id) {
 		Map<String, Object> response = new HashMap<>();
+		
+		if(result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
 		ClienteDto clienteActual = clienteService.findById(id);
 		ClienteDto clienteUpdate = null;
 

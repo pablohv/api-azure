@@ -2,6 +2,10 @@ package com.apirest.dao.dto.app.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.apirest.dao.dto.app.entity.Cliente;
 
 public class ClienteDto implements Serializable {
@@ -9,9 +13,17 @@ public class ClienteDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idCliente;
+	
+	@NotEmpty
+	@Size(min = 4)
 	private String nombre;
+	
+	@NotEmpty
+	@Size(min = 4)
 	private String apellido;
-	private short edad;
+	
+	@NotNull
+	private Short edad;
 
 	public Integer getIdCliente() {
 		return idCliente;
@@ -37,11 +49,11 @@ public class ClienteDto implements Serializable {
 		this.apellido = apellido;
 	}
 
-	public short getEdad() {
+	public Short getEdad() {
 		return edad;
 	}
 
-	public void setEdad(short edad) {
+	public void setEdad(Short edad) {
 		this.edad = edad;
 	}
 	
