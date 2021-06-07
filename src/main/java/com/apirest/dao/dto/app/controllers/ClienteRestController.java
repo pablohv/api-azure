@@ -40,14 +40,13 @@ public class ClienteRestController {
 	public ResponseEntity<?> create(@Valid @RequestBody ClienteDto dto, BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 		ClienteDto clienteNew = null;
-		
-		if(result.hasErrors()) {
 
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
@@ -89,22 +88,29 @@ public class ClienteRestController {
 	}
 
 	@PutMapping("/clientes/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody ClienteDto dto, BindingResult result, @PathVariable Integer id) {
+	public ResponseEntity<?> update(@Valid @RequestBody ClienteDto dto, BindingResult result,
+			@PathVariable Integer id) {
 		Map<String, Object> response = new HashMap<>();
-		
-		if(result.hasErrors()) {
 
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		ClienteDto clienteActual = clienteService.findById(id);
 		ClienteDto clienteUpdate = null;
+
+		if (clienteActual == null) {
+			response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
+					.concat(id.toString().concat(" no existe en la base de datos!")));
+			
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
 
 		try {
 			clienteActual.setIdCliente(dto.getIdCliente());
@@ -137,7 +143,7 @@ public class ClienteRestController {
 			response.put("error", e.getMostSpecificCause().getMessage());
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		response.put("mensaje", "El cliente con ID: ".concat(id.toString()).concat(" ah sido eliminado"));
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
